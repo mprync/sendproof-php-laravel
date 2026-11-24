@@ -11,6 +11,7 @@ use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Sendproof\Core\Capture\Recorder;
+use Sendproof\Core\JourneyFiles;
 use Sendproof\Laravel\Capture\CaptureListeners;
 use Sendproof\Laravel\Eloquent\ChangeCollector;
 use Sendproof\Laravel\Eloquent\EloquentPreviewProvider;
@@ -96,6 +97,7 @@ final class SendproofServiceProvider extends ServiceProvider
             Route::get('signin.html', [WorkbenchController::class, 'index']);
             Route::get('_api/capabilities', [WorkbenchController::class, 'capabilities']);
             Route::get('_api/traces/{id}', [WorkbenchController::class, 'trace'])->where('id', '[0-9a-fA-F-]{32,36}');
+            Route::get('journeys/{file}', [WorkbenchController::class, 'journey'])->where('file', JourneyFiles::ROUTE_FILE);
             Route::get('{asset}', [WorkbenchController::class, 'asset'])->where('asset', '.*');
         });
     }

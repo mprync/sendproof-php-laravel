@@ -103,6 +103,12 @@ final class PreviewMiddleware
         if (!Protocol::hasExactPreference($prefer)) {
             return $this->problem(400, 'A Sendproof preview requires Prefer: tx=rollback.');
         }
+        if ($request->headers->has(Protocol::SESSION_HEADER)) {
+            return new JsonResponse(Protocol::sessionNotFound(), 404, [
+                'Content-Type' => 'application/problem+json',
+                'Cache-Control' => 'no-store',
+            ]);
+        }
         if ($request->isMethod('HEAD')) {
             return $this->problem(405, 'A preview requires a response body.');
         }

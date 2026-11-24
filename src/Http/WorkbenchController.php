@@ -88,7 +88,23 @@ final class WorkbenchController
             $provider instanceof DescribesDatabaseSystem ? $provider->databaseSystem() : null,
         );
 
+        $journeys = $this->manager->journeyFiles()->discovery($base);
+        if ($journeys !== []) {
+            $capabilities['journeys'] = $journeys;
+        }
+
         return $this->json($capabilities);
+    }
+
+    public function journey(Request $request, string $file): Response
+    {
+        $json = $this->manager->journeyFiles()->json($file, $request->getBaseUrl());
+
+        return $json === null ? $this->notFound() : new Response($json, 200, [
+            'Content-Type' => 'application/json',
+            'Cache-Control' => 'no-store',
+            'X-Content-Type-Options' => 'nosniff',
+        ]);
     }
 
     public function trace(Request $request, string $id): JsonResponse|Response

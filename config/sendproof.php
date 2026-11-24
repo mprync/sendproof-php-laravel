@@ -22,6 +22,9 @@ return [
     'openapi_url' => '/openapi/v1.json',
     'documents' => [], // [['name' => 'Inventory', 'url' => '/openapi/v1.json']]
 
+    // Arazzo 1.1 JSON files, e.g. [base_path('journeys/store.arazzo.json')].
+    'journeys' => [],
+
     // Same-origin ES modules that add custom field renderers. Host configuration only.
     'field_modules' => [],
 

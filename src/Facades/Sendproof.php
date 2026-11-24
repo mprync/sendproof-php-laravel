@@ -17,6 +17,7 @@ use Sendproof\Laravel\SendproofManager;
  * @method static bool tryRecordJob(string $description, string $name, mixed $arguments, ?string $queue = null, ?\DateTimeInterface $runAt = null)
  * @method static bool tryRecordMessage(string $description, string $topic, mixed $payload, ?string $key = null)
  * @method static bool isPreview()
+ * @method static void addJourneys(\Sendproof\Core\Journeys\JourneyDocument $definition, array|\stdClass $openApi)
  * @method static void identifyUsing(Closure $resolver)
  * @method static void authorizeUsing(Closure $authorizer)
  * @method static \Aws\DynamoDb\DynamoDbClient hookDynamoDb(\Aws\DynamoDb\DynamoDbClient $client, ?string $name = null)

@@ -10,6 +10,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Sendproof\Core\Capture\Recorder;
 use Sendproof\Core\Contracts\PreviewProvider;
+use Sendproof\Core\JourneyFiles;
+use Sendproof\Core\Journeys\JourneyDocument;
 use Sendproof\Core\Preview\NoSqlProvider;
 use Sendproof\Core\Stores\DataStore;
 use Sendproof\Core\Stores\Guard;
@@ -37,6 +39,7 @@ final class SendproofManager
     /** @var list<DataStore> */
     private array $stores = [];
     private bool $storesHooked = false;
+    private ?JourneyFiles $journeys = null;
 
     public function __construct(private readonly Application $app)
     {
@@ -47,6 +50,25 @@ final class SendproofManager
     {
         return (bool) $this->config('enabled', false)
             && in_array($this->app->environment(), (array) $this->config('environments', []), true);
+    }
+
+    /** Registers a definition during application boot using the data served at openapi_url. */
+    public function addJourneys(JourneyDocument $definition, array|\stdClass $openApi): void
+    {
+        if ($this->enabled()) {
+            $this->journeyFiles()->addJourneys(
+                $definition,
+                (string) $this->config('openapi_url', '/openapi/v1.json'),
+                $openApi,
+                $this->app->environment('local', 'dev', 'development'),
+                fn (string $warning) => $this->app->make('log')->warning($warning),
+            );
+        }
+    }
+
+    public function journeyFiles(): JourneyFiles
+    {
+        return $this->journeys ??= new JourneyFiles($this->config('journeys', []));
     }
 
     /** Overrides how the signed-in user is shown: `fn (Request $request, ?Authenticatable $user): ?array{name:?string,role?:string}`. */
