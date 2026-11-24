@@ -2,9 +2,9 @@
 
 Sendproof adds an API workbench to a Laravel application: browse your OpenAPI document, edit requests, **Send** them, **Preview** a write with a real database rollback, and read the SQL, logs, effects and row changes that an **Observed Send** produced.
 
-The package implements [Sendproof protocol v1](https://github.com/mprync/sendproof/blob/6d116184ca5d46a98a86dc2be09861542f0d48bf/spec/README.md). Preview dispatches the real request through your own routing, middleware, validation and handler in the same process, inside a transaction that is always rolled back.
+The package implements [Sendproof protocol v1](https://github.com/mprync/sendproof/blob/a95579be596e1038c78584d274904a645f72e35a/spec/README.md). Preview dispatches the real request through your own routing, middleware, validation and handler in the same process, inside a transaction that is always rolled back.
 
-> **Status:** `0.1.0-alpha.2`. Tested with Laravel 13.43 on PHP 8.4 and SQLite. The package allows Laravel 11–13 and PHP 8.2+, but only the tested combination is verified.
+> **Status:** `0.1.0-alpha.3`. Tested with Laravel 13.43 on PHP 8.4 and SQLite. The package allows Laravel 11–13 and PHP 8.2+, but only the tested combination is verified.
 
 ## Install
 
@@ -94,7 +94,7 @@ Limits match the .NET adapter: 500 logs, 100 effects, 200 changes, 32 log proper
 
 ## Configuration
 
-See [`config/sendproof.php`](https://github.com/mprync/sendproof/blob/6d116184ca5d46a98a86dc2be09861542f0d48bf/adapters/php/laravel/config/sendproof.php). The common settings:
+See [`config/sendproof.php`](https://github.com/mprync/sendproof/blob/a95579be596e1038c78584d274904a645f72e35a/adapters/php/laravel/config/sendproof.php). The common settings:
 
 | Key | Purpose |
 | --- | --- |
@@ -123,8 +123,8 @@ Send an operation with `Prefer: trace`. The response is untouched, plus an `X-Se
 composer install && vendor/bin/phpunit
 ```
 
-The Laravel conformance fixture is in [`../examples/laravel-fixture`](https://github.com/mprync/sendproof/blob/6d116184ca5d46a98a86dc2be09861542f0d48bf/adapters/php/examples/laravel-fixture/README.md).
+The Laravel conformance fixture is in [`../examples/laravel-fixture`](https://github.com/mprync/sendproof/blob/a95579be596e1038c78584d274904a645f72e35a/adapters/php/examples/laravel-fixture/README.md).
 
 ## Data stores
 
-Preview can also cover MongoDB (`mongodb/laravel-mongodb`), Redis (Predis and phpredis), DynamoDB, Elasticsearch, OpenSearch and Firestore. List the stores in `sendproof.data_stores`, and mark an operation you know writes to a guarded store with `->sendproofPreview(false, 'Clears the Redis session')`. Only the clients you hook are covered. See [data stores in the PHP binding](https://github.com/mprync/sendproof/blob/6d116184ca5d46a98a86dc2be09861542f0d48bf/adapters/php/data-stores.md).
+Preview can also cover MongoDB (`mongodb/laravel-mongodb`), Redis (Predis and phpredis), DynamoDB, Elasticsearch, OpenSearch and Firestore. List the stores in `sendproof.data_stores`, and mark an operation you know writes to a guarded store with `->sendproofPreview(false, 'Clears the Redis session')`. Only the clients you hook are covered. See [data stores in the PHP binding](https://github.com/mprync/sendproof/blob/a95579be596e1038c78584d274904a645f72e35a/adapters/php/data-stores.md).
